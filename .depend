@@ -1,0 +1,39 @@
+Tactic.vo: Tactic.v
+Tactic.vi: Tactic.v
+Aux.vo: Aux.v Tactic.vo
+Aux.vi: Aux.v Tactic.vo
+Iterator.vo: Iterator.v Permutation.vo
+Iterator.vi: Iterator.v Permutation.vo
+Permutation.vo: Permutation.v Aux.vo
+Permutation.vi: Permutation.v Aux.vo
+ZProgression.vo: ZProgression.v Iterator.vo UList.vo
+ZProgression.vi: ZProgression.v Iterator.vo UList.vo
+ZProd.vo: ZProd.v Aux.vo Iterator.vo ZProgression.vo
+ZProd.vi: ZProd.v Aux.vo Iterator.vo ZProgression.vo
+UList.vo: UList.v Permutation.vo
+UList.vi: UList.v Permutation.vo
+ZFact.vo: ZFact.v ZProd.vo
+ZFact.vi: ZFact.v ZProd.vo
+ZisMod.vo: ZisMod.v ZProd.vo ZFact.vo Permutation.vo Iterator.vo UList.vo
+ZisMod.vi: ZisMod.v ZProd.vo ZFact.vo Permutation.vo Iterator.vo UList.vo
+ZdivExp.vo: ZdivExp.v Aux.vo
+ZdivExp.vi: ZdivExp.v Aux.vo
+Fermat.vo: Fermat.v ZisMod.vo
+Fermat.vi: Fermat.v ZisMod.vo
+Wilson.vo: Wilson.v ZisMod.vo
+Wilson.vi: Wilson.v ZisMod.vo
+TwoSquares.vo: TwoSquares.v Wilson.vo ZdivExp.vo
+TwoSquares.vi: TwoSquares.v Wilson.vo ZdivExp.vo
+Tactic.html: Tactic.v
+Aux.html: Aux.v Tactic.html
+Iterator.html: Iterator.v Permutation.html
+Permutation.html: Permutation.v Aux.html
+ZProgression.html: ZProgression.v Iterator.html UList.html
+ZProd.html: ZProd.v Aux.html Iterator.html ZProgression.html
+UList.html: UList.v Permutation.html
+ZFact.html: ZFact.v ZProd.html
+ZisMod.html: ZisMod.v ZProd.html ZFact.html Permutation.html Iterator.html UList.html
+ZdivExp.html: ZdivExp.v Aux.html
+Fermat.html: Fermat.v ZisMod.html
+Wilson.html: Wilson.v ZisMod.html
+TwoSquares.html: TwoSquares.v Wilson.html ZdivExp.html
