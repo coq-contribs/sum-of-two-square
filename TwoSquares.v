@@ -648,9 +648,9 @@ Theorem not_prime_prime_divide:
  forall n,
  (1 < n)%Z ->
  ~ prime n ->  (exists p , ( 1 < p < n )%Z /\ (prime p /\ Zdivide p n) ).
-intros n Hn; generalize Hn; pattern n; apply Z_lt_induction; auto with zarith;
+intros n Hn; generalize Hn; pattern n; apply Zlt_0_ind; auto with zarith;
  clear n Hn.
-intros n Rec H1 H2.
+intros n Rec _ H1 H2.
 case (not_prime_divide _ H1 H2); intros m [Hm1 Hm2].
 case (prime_dec m); intros Hm3.
 exists m; auto.
@@ -713,7 +713,7 @@ Theorem two_squares_sum:
  0 <= n ->
  (forall p, prime p -> Zis_mod p 3 4 ->  Zeven (Zdiv_exp p n)) ->
   sum_of_two_squares n.
-intros n Hn; generalize Hn; pattern n; apply Z_lt_induction; auto with zarith;
+intros n Hn; pattern n; apply Zlt_0_ind; auto with zarith;
  clear n Hn.
 intros n Rec H1 H2.
 case Zle_lt_or_eq with ( 1 := H1 ); clear H1; intros H1.
@@ -747,7 +747,7 @@ rewrite H; apply two_squares_comp; auto with zarith.
 apply two_squares_exists; auto with zarith.
 apply Rec; auto with zarith.
 case (Zdivide_Zdiv_lt_pos p n); auto with zarith.
-case (Zdivide_Zdiv_lt_pos p n); auto with zarith.
+(*case (Zdivide_Zdiv_lt_pos p n); auto with zarith.*)
 intros p1 Hm1 Hm2.
 rewrite <- Zdiv_exp_prime with ( c := p ); auto with zarith.
 rewrite Zmult_comm; rewrite <- H; auto with zarith.
