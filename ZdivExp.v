@@ -19,10 +19,10 @@ case (Z_lt_dec 1 a); intros H1.
 2:exists 0; auto with zarith.
 case (Z_le_dec 0 b); intros H2.
 2:exists 0; auto with zarith.
-pattern b; apply Z_lt_rec.
+pattern b; apply Zlt_0_rec.
 2:auto.
 clear b H2; intros b.
-intros f.
+intros f _.
 case (Z_lt_dec 0 b); intros H3.
 case (Z_lt_dec 1 b); intros H3'.
 2:exists 0; auto with zarith.
