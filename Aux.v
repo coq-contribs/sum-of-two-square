@@ -32,8 +32,11 @@ Require Import Wf_nat.
 (* 
    Some properties on list operators: app, map,...
    *)
+
+Open Scope nat_scope.
  
 Section List.
+
 Variables (A : Set) (B : Set) (C : Set).
 Variable f : A ->  B.
 (* An induction theorem for list based on length 
@@ -45,7 +48,7 @@ Theorem list_length_ind:
   (forall (l2 : list A), length l2 < length l1 ->  P l2) ->  P l1) ->
  forall (l : list A),  P l.
 intros P H l;
- apply well_founded_ind with ( R := fun (x y : list A) => length x < length y );
+ apply well_founded_ind with ( R := fun (x y : list A) => (length x < length y)%nat );
  auto.
 apply wf_inverse_image with ( R := lt ); auto.
 apply lt_wf.
