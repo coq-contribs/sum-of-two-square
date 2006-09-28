@@ -25,10 +25,12 @@
 Require Export List.
 Require Export Arith.
 Require Export ZArith.
+Require Export ZArithRing.
 Require Export Znumtheory.
 Require Export Tactic.
 Require Import Inverse_Image.
 Require Import Wf_nat.
+
 (* 
    Some properties on list operators: app, map,...
    *)
