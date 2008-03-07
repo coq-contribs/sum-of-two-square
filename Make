@@ -1,3 +1,4 @@
+-R . SumOfTwoSquare
 Tactic.v
 Aux.v
 Iterator.v
