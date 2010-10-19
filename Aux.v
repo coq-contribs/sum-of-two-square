@@ -407,47 +407,23 @@ Qed.
  
 
 (* 
-  Properties Zsqrt_plain
+  Properties Zsqrt
    *)
 
-Theorem Zsqrt_plain_is_pos: forall n, (0 <= n)%Z ->  (0 <= Zsqrt_plain n)%Z.
-intros n m; case (Zsqrt_interval n); auto with zarith.
-intros H1 H2; case (Zle_or_lt 0 (Zsqrt_plain n)); auto.
-intros H3; contradict H2; apply Zle_not_lt.
-apply Zle_trans with ( 2 := H1 ).
-replace ((Zsqrt_plain n + 1) * (Zsqrt_plain n + 1))%Z
-     with (Zsqrt_plain n * Zsqrt_plain n + (2 * Zsqrt_plain n + 1))%Z;
- auto with zarith.
-ring.
+Theorem Zsqrt_is_pos: forall n, (0 <= n)%Z ->  (0 <= Zsqrt n)%Z.
+Proof.
+apply Z.sqrt_nonneg.
 Qed.
 
-Theorem Zsqrt_square_id: forall a, (0 <= a)%Z ->  Zsqrt_plain (a * a)%Z = a.
-intros a H.
-generalize (Zsqrt_plain_is_pos (a * a)%Z); auto with zarith; intros Haa.
-case (Zsqrt_interval (a * a)%Z); auto with zarith.
-intros H1 H2.
-case (Zle_or_lt a (Zsqrt_plain (a * a)%Z)); intros H3.
-case Zle_lt_or_eq with ( 1 := H3 ); auto; clear H3; intros H3.
-contradict H1; apply Zlt_not_le; auto with zarith.
-apply Zle_lt_trans with (a * Zsqrt_plain (a * a))%Z; auto with zarith.
-apply Zmult_lt_compat_r; auto with zarith.
-contradict H2; apply Zle_not_lt; auto with zarith.
-apply Zmult_le_compat; auto with zarith.
+Theorem Zsqrt_square_id: forall a, (0 <= a)%Z ->  Zsqrt (a * a)%Z = a.
+Proof.
+apply Z.sqrt_square.
 Qed.
  
 Theorem Zsqrt_le:
- forall p q, ( 0 <= p <= q )%Z ->  (Zsqrt_plain p <= Zsqrt_plain q)%Z.
-intros p q [H1 H2]; case Zle_lt_or_eq with ( 1 := H2 ); clear H2; intros H2.
-2:subst q; auto with zarith.
-case (Zle_or_lt (Zsqrt_plain p) (Zsqrt_plain q)); auto; intros H3.
-assert (Hp: (0 <= Zsqrt_plain q)%Z).
-apply Zsqrt_plain_is_pos; auto with zarith.
-absurd (q <= p)%Z; auto with zarith.
-apply Zle_trans with ((Zsqrt_plain q + 1) * (Zsqrt_plain q + 1))%Z.
-case (Zsqrt_interval q); auto with zarith.
-apply Zle_trans with (Zsqrt_plain p * Zsqrt_plain p)%Z; auto with zarith.
-apply Zmult_le_compat; auto with zarith.
-case (Zsqrt_interval p); auto with zarith.
+ forall p q, ( 0 <= p <= q )%Z ->  (Zsqrt p <= Zsqrt q)%Z.
+Proof.
+apply Z.sqrt_le_mono.
 Qed.
 
 (* 
