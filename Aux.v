@@ -412,7 +412,7 @@ Qed.
 
 Theorem Zsqrt_is_pos: forall n, (0 <= n)%Z ->  (0 <= Zsqrt n)%Z.
 Proof.
-apply Z.sqrt_nonneg.
+intros. apply Z.sqrt_nonneg.
 Qed.
 
 Theorem Zsqrt_square_id: forall a, (0 <= a)%Z ->  Zsqrt (a * a)%Z = a.
@@ -423,7 +423,7 @@ Qed.
 Theorem Zsqrt_le:
  forall p q, ( 0 <= p <= q )%Z ->  (Zsqrt p <= Zsqrt q)%Z.
 Proof.
-apply Z.sqrt_le_mono.
+intros p q (_,H). now apply Z.sqrt_le_mono.
 Qed.
 
 (* 
