@@ -410,18 +410,18 @@ Qed.
   Properties Zsqrt
    *)
 
-Theorem Zsqrt_is_pos: forall n, (0 <= n)%Z ->  (0 <= Zsqrt n)%Z.
+Theorem Zsqrt_is_pos: forall n, (0 <= n)%Z ->  (0 <= Z.sqrt n)%Z.
 Proof.
 intros. apply Z.sqrt_nonneg.
 Qed.
 
-Theorem Zsqrt_square_id: forall a, (0 <= a)%Z ->  Zsqrt (a * a)%Z = a.
+Theorem Zsqrt_square_id: forall a, (0 <= a)%Z ->  Z.sqrt (a * a)%Z = a.
 Proof.
 apply Z.sqrt_square.
 Qed.
  
 Theorem Zsqrt_le:
- forall p q, ( 0 <= p <= q )%Z ->  (Zsqrt p <= Zsqrt q)%Z.
+ forall p q, ( 0 <= p <= q )%Z ->  (Z.sqrt p <= Z.sqrt q)%Z.
 Proof.
 intros p q (_,H). now apply Z.sqrt_le_mono.
 Qed.
