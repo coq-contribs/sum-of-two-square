@@ -534,10 +534,6 @@ pattern (2 * q) at 2; replace (2 * q) with (Zsucc (Zpred (2 * q)));
  auto with zarith.
 rewrite Zabs_nat_Zsucc; auto with zarith.
 rewrite <- pred_Sn; rewrite Z_of_nat_Zabs_nat; auto with zarith.
-unfold Zpred; ring.
-unfold Zpred; auto with zarith.
-unfold Zpred; auto with zarith.
-unfold Zsucc, Zpred; auto with zarith.
 replace ((1 + 2 * q) - 1) with (2 * q); auto with zarith.
 replace (2 * q) with (q + q); auto with zarith.
 rewrite Zpower_exp; auto with zarith.
@@ -813,7 +809,6 @@ pattern n at 1; rewrite H0.
 rewrite <- Zmult_assoc.
 rewrite Zdiv_exp_succ; auto with zarith.
 rewrite Zdiv_exp_succ; auto with zarith.
-unfold Zpred; ring.
 apply Zlt_le_trans with (p * 1); auto with zarith.
 rewrite <- Zdiv_exp_prime with ( c := p ); auto with zarith.
 rewrite <- Zdiv_exp_prime with ( c := p ); auto with zarith.

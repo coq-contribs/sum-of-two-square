@@ -163,8 +163,6 @@ exists (Zpower a (Zpred d)).
 pattern a at 3; rewrite <- (Zpower_exp_1 a); auto with zarith.
 rewrite <- Zpower_exp; auto with zarith.
 replace (Zpred d + 1) with d; auto with zarith.
-unfold Zpred; ring.
-apply Zle_ge; apply Zlt_0_le_0_pred; auto with zarith.
 exists 0; auto with zarith.
 Defined.
  
