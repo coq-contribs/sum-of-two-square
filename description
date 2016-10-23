@@ -2,7 +2,7 @@ Name: SumOfTwoSquare
 Title: Numbers equal to the sum of two square numbers
 Author: Laurent Thery
 Institution: INRIA Sophia-Antipolis
-Date: 13/12/2004
+Date: 2004-12-13
 Description:  A proof that a number n can be written as the
 sum of two square numbers if and only if each prime factor p of n
 that is equal to 3 modulo 4 has its exponent in the decomposition of n
