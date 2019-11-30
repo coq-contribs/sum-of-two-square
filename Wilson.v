@@ -41,7 +41,7 @@ inversion_clear Ha as [u v Huv].
 exists (Zmod u p); split; [split | split].
 case (Z_mod_lt u p); auto with zarith; intros H1 H2.
 case (Zle_lt_or_eq _ _ H1); clear H1; intros H1; auto with zarith.
-assert (Ha: Zdivide p u).
+assert (Ha: Z.divide p u).
 apply Zmod_divide; auto with zarith.
 inversion_clear Ha as [k Hk].
 case (Zmult_1_inversion_l p (k * a + v)); auto with zarith.
@@ -88,16 +88,16 @@ rewrite Zmult_1_l.
 unfold Zprod; rewrite Zle_imp_le_bool; auto with zarith.
 cut
  (forall a,
-  In a (progression Zsucc 2 (Zabs_nat ((1 + (p - 2)) - 2))) ->
+  In a (progression Z.succ 2 (Z.abs_nat ((1 + (p - 2)) - 2))) ->
    (exists b ,
-    In b (progression Zsucc 2 (Zabs_nat ((1 + (p - 2)) - 2))) /\
+    In b (progression Z.succ 2 (Z.abs_nat ((1 + (p - 2)) - 2))) /\
     (rel_prime b p /\ Zis_mod (a * b) 1 p) )).
 cut
  (forall a,
-  In a (progression Zsucc 2 (Zabs_nat ((1 + (p - 2)) - 2))) ->
+  In a (progression Z.succ 2 (Z.abs_nat ((1 + (p - 2)) - 2))) ->
    ( 1 < a < p - 1 ) /\ rel_prime a p).
-cut (ulist (progression Zsucc 2 (Zabs_nat ((1 + (p - 2)) - 2)))).
-elim (progression Zsucc 2 (Zabs_nat ((1 + (p - 2)) - 2)))  using list_length_ind.
+cut (ulist (progression Z.succ 2 (Z.abs_nat ((1 + (p - 2)) - 2)))).
+elim (progression Z.succ 2 (Z.abs_nat ((1 + (p - 2)) - 2)))  using list_length_ind.
 intros l1; case l1.
 intros; simpl; auto.
 apply Zmod_def_small; auto with zarith.
@@ -266,7 +266,7 @@ intros x [[Hx1 Hx2] Hx3].
 assert (H1: p = x * (p / x)).
 apply Z_div_exact_2; auto with zarith.
 apply Zdivide_mod; auto with zarith.
-case (Z_eq_dec x (p / x)); intros Heq.
+case (Z.eq_dec x (p / x)); intros Heq.
 assert (Hl:  1 < 2 * x < p ).
 split; auto with zarith.
 case (Zle_lt_or_eq 2 x); auto with zarith; intros H2.
@@ -275,8 +275,8 @@ apply Zmult_lt_compat_r; auto with zarith.
 unfold Zfact, Zprod.
 rewrite Zle_imp_le_bool; auto with zarith.
 replace ((1 + (p - 1)) - 1) with (p - 1); auto with zarith.
-generalize (ulist_Zprogression 1 (Zabs_nat (p - 1))); intros Hu.
-case (in_permutation_ex _ x (progression Zsucc 1 (Zabs_nat (p - 1)))).
+generalize (ulist_Zprogression 1 (Z.abs_nat (p - 1))); intros Hu.
+case (in_permutation_ex _ x (progression Z.succ 1 (Z.abs_nat (p - 1)))).
 apply in_Zprogression; auto with zarith.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 intros l1 Hl1.
@@ -301,13 +301,13 @@ apply Zmult_lt_reg_r with x; auto with zarith.
 rewrite Zmult_1_l; rewrite Zmult_comm; rewrite <- H1; auto with zarith.
 split; auto with zarith.
 pattern p at 2; rewrite H1; auto with zarith.
-apply Zle_lt_trans with (1 * (p / x)); auto with zarith.
+apply Z.le_lt_trans with (1 * (p / x)); auto with zarith.
 apply Zmult_lt_compat_r; auto with zarith.
 unfold Zfact, Zprod.
 rewrite Zle_imp_le_bool; auto with zarith.
 replace ((1 + (p - 1)) - 1) with (p - 1); auto with zarith.
-generalize (ulist_Zprogression 1 (Zabs_nat (p - 1))); intros Hu.
-case (in_permutation_ex _ x (progression Zsucc 1 (Zabs_nat (p - 1)))).
+generalize (ulist_Zprogression 1 (Z.abs_nat (p - 1))); intros Hu.
+case (in_permutation_ex _ x (progression Z.succ 1 (Z.abs_nat (p - 1)))).
 apply in_Zprogression; auto with zarith.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 intros l1 Hl1.

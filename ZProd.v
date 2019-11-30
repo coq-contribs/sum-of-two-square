@@ -30,8 +30,8 @@ Open Scope Z_scope.
 Definition Zprod :=
    fun n m f =>
    if Zle_bool n m
-     then iter 1 f Zmult (progression Zsucc n (Zabs_nat ((1 + m) - n)))
-     else iter 1 f Zmult (progression Zpred n (Zabs_nat ((1 + n) - m))).
+     then iter 1 f Zmult (progression Z.succ n (Z.abs_nat ((1 + m) - n)))
+     else iter 1 f Zmult (progression Z.pred n (Z.abs_nat ((1 + n) - m))).
 Hint Unfold Zprod .
  
 Lemma Zprod_nn: forall (n : Z) (f : Z ->  Z),  Zprod n n f = f n.
@@ -55,15 +55,15 @@ intros; replace n with m; auto with zarith.
 3:intros H1 H2; contradict H2; auto with zarith.
 intros H1 H2; apply iter_permutation; auto with zarith.
 apply permutation_trans
-     with (rev (progression Zsucc n (Zabs_nat ((1 + m) - n)))).
+     with (rev (progression Z.succ n (Z.abs_nat ((1 + m) - n)))).
 apply permutation_sym; apply permutation_rev.
 rewrite Zprogression_opp; auto with zarith.
-replace (n + Z_of_nat (pred (Zabs_nat ((1 + m) - n)))) with m; auto.
-replace (Zabs_nat ((1 + m) - n)) with (S (Zabs_nat (m - n))); auto with zarith.
+replace (n + Z_of_nat (pred (Z.abs_nat ((1 + m) - n)))) with m; auto.
+replace (Z.abs_nat ((1 + m) - n)) with (S (Z.abs_nat (m - n))); auto with zarith.
 simpl.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 replace ((1 + m) - n) with (1 + (m - n)); auto with zarith.
-cut (0 <= m - n); auto with zarith; unfold Zabs_nat.
+cut (0 <= m - n); auto with zarith; unfold Z.abs_nat.
 case (m - n); auto with zarith.
 intros p; case p; simpl; auto with zarith.
 intros p1 Hp1; rewrite nat_of_P_xO; rewrite nat_of_P_xI;
@@ -72,14 +72,14 @@ simpl; rewrite <- plus_n_Sm; auto.
 intros p H3; contradict H3; auto with zarith.
 intros H1 H2; apply iter_permutation; auto with zarith.
 apply permutation_trans
-     with (rev (progression Zsucc m (Zabs_nat ((1 + n) - m)))).
+     with (rev (progression Z.succ m (Z.abs_nat ((1 + n) - m)))).
 rewrite Zprogression_opp; auto with zarith.
-replace (m + Z_of_nat (pred (Zabs_nat ((1 + n) - m)))) with n; auto.
-replace (Zabs_nat ((1 + n) - m)) with (S (Zabs_nat (n - m))); auto with zarith.
+replace (m + Z_of_nat (pred (Z.abs_nat ((1 + n) - m)))) with n; auto.
+replace (Z.abs_nat ((1 + n) - m)) with (S (Z.abs_nat (n - m))); auto with zarith.
 simpl.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 replace ((1 + n) - m) with (1 + (n - m)); auto with zarith.
-cut (0 <= n - m); auto with zarith; unfold Zabs_nat.
+cut (0 <= n - m); auto with zarith; unfold Z.abs_nat.
 case (n - m); auto with zarith.
 intros p; case p; simpl; auto with zarith.
 intros p1 Hp1; rewrite nat_of_P_xO; rewrite nat_of_P_xI;
@@ -96,15 +96,15 @@ intros n m p f [H H0].
 case (Zle_lt_or_eq _ _ H); clear H; intros H.
 unfold Zprod; (repeat rewrite Zle_imp_le_bool); auto with zarith.
 assert (H1: n < p).
-apply Zlt_trans with ( 1 := H ); auto with zarith.
+apply Z.lt_trans with ( 1 := H ); auto with zarith.
 assert (H2: m < 1 + p).
-apply Zlt_trans with ( 1 := H0 ); auto with zarith.
+apply Z.lt_trans with ( 1 := H0 ); auto with zarith.
 assert (H3: n < 1 + m).
-apply Zlt_trans with ( 1 := H ); auto with zarith.
+apply Z.lt_trans with ( 1 := H ); auto with zarith.
 assert (H4: n < 1 + p).
-apply Zlt_trans with ( 1 := H1 ); auto with zarith.
-replace (Zabs_nat ((1 + p) - (m + 1)))
-     with (minus (Zabs_nat ((1 + p) - n)) (Zabs_nat ((1 + m) - n))).
+apply Z.lt_trans with ( 1 := H1 ); auto with zarith.
+replace (Z.abs_nat ((1 + p) - (m + 1)))
+     with (minus (Z.abs_nat ((1 + p) - n)) (Z.abs_nat ((1 + m) - n))).
 apply iter_progression_app; auto with zarith.
 apply inj_le_inv.
 (repeat rewrite Z_of_nat_Zabs_nat); auto with zarith.
@@ -120,9 +120,9 @@ rewrite Zprod_nn; auto with zarith.
 unfold Zprod; generalize (Zle_cases n p); generalize (Zle_cases (n + 1) p);
  case (Zle_bool n p); case (Zle_bool (n + 1) p); auto with zarith.
 intros H1 H2.
-replace (Zabs_nat ((1 + p) - n)) with (S (Zabs_nat (p - n))); auto with zarith.
-replace (n + 1) with (Zsucc n); auto with zarith.
-replace ((1 + p) - Zsucc n) with (p - n); auto with zarith.
+replace (Z.abs_nat ((1 + p) - n)) with (S (Z.abs_nat (p - n))); auto with zarith.
+replace (n + 1) with (Z.succ n); auto with zarith.
+replace ((1 + p) - Z.succ n) with (p - n); auto with zarith.
 apply inj_eq_inv; auto with zarith.
 rewrite inj_S; (repeat rewrite Z_of_nat_Zabs_nat); auto with zarith.
 Qed.
@@ -154,11 +154,11 @@ subst p.
 repeat rewrite (Zprod_swap n).
 rewrite Zprod_nn.
 unfold Zprod; (repeat rewrite Zle_imp_le_bool); auto with zarith.
-replace (Zabs_nat ((1 + n) - (m - 1))) with (S (Zabs_nat (n - (m - 1)))).
+replace (Z.abs_nat ((1 + n) - (m - 1))) with (S (Z.abs_nat (n - (m - 1)))).
 rewrite Zmult_comm.
-replace (Zabs_nat ((1 + n) - m)) with (Zabs_nat (n - (m - 1))); auto with zarith.
-pattern m at 4; replace m with (Zsucc (m - 1)); auto with zarith.
-apply f_equal with ( f := Zabs_nat ); auto with zarith.
+replace (Z.abs_nat ((1 + n) - m)) with (Z.abs_nat (n - (m - 1))); auto with zarith.
+pattern m at 4; replace m with (Z.succ (m - 1)); auto with zarith.
+apply f_equal with ( f := Z.abs_nat ); auto with zarith.
 apply inj_eq_inv; auto with zarith.
 rewrite inj_S.
 (repeat rewrite Z_of_nat_Zabs_nat); auto with zarith.
@@ -174,8 +174,8 @@ unfold Zprod; (repeat rewrite Zle_imp_le_bool); auto with zarith.
 apply iter_ext; auto with zarith.
 intros a H1; apply H; auto; split.
 apply Zprogression_le_init with ( 1 := H1 ).
-cut (a < Zsucc m); auto with zarith.
-replace (Zsucc m) with (n + Z_of_nat (Zabs_nat ((1 + m) - n))); auto with zarith.
+cut (a < Z.succ m); auto with zarith.
+replace (Z.succ m) with (n + Z_of_nat (Z.abs_nat ((1 + m) - n))); auto with zarith.
 apply Zprogression_le_end; auto with zarith.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 Qed.
@@ -197,36 +197,36 @@ intros P n m f HH H H0 H1.
 unfold Zprod; rewrite Zle_imp_le_bool; auto with zarith; apply iter_inv; auto.
 intros x H3; apply H1; auto; split.
 apply Zprogression_le_init with ( 1 := H3 ).
-cut (x < Zsucc m); auto with zarith.
-replace (Zsucc m) with (n + Z_of_nat (Zabs_nat ((1 + m) - n))); auto with zarith.
+cut (x < Z.succ m); auto with zarith.
+replace (Z.succ m) with (n + Z_of_nat (Z.abs_nat ((1 + m) - n))); auto with zarith.
 apply Zprogression_le_end; auto with zarith.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 Qed.
  
 Lemma Zprod_pred:
  forall (n m : Z) (f : Z ->  Z),
-  Zprod n m f = Zprod (n + 1) (m + 1) (fun (i : Z) => f (Zpred i)).
+  Zprod n m f = Zprod (n + 1) (m + 1) (fun (i : Z) => f (Z.pred i)).
 intros n m f.
 unfold Zprod.
 generalize (Zle_cases n m); generalize (Zle_cases (n + 1) (m + 1));
  case (Zle_bool n m); case (Zle_bool (n + 1) (m + 1)); auto with zarith.
 replace ((1 + (m + 1)) - (n + 1)) with ((1 + m) - n); auto with zarith.
-intros H1 H2; cut (exists c , c = Zabs_nat ((1 + m) - n) ).
+intros H1 H2; cut (exists c , c = Z.abs_nat ((1 + m) - n) ).
 intros [c H3]; rewrite <- H3.
 generalize n; elim c; auto with zarith; clear H1 H2 H3 c n.
 intros c H n; simpl; (apply f_equal2 with ( f := Zmult ); auto with zarith).
-apply f_equal with ( f := f ); unfold Zpred; auto with zarith.
-replace (Zsucc (n + 1)) with (Zsucc n + 1); auto with zarith.
-exists (Zabs_nat ((1 + m) - n)); auto.
+apply f_equal with ( f := f ); unfold Z.pred; auto with zarith.
+replace (Z.succ (n + 1)) with (Z.succ n + 1); auto with zarith.
+exists (Z.abs_nat ((1 + m) - n)); auto.
 replace ((1 + (n + 1)) - (m + 1)) with ((1 + n) - m); auto with zarith.
-intros H1 H2; cut (exists c , c = Zabs_nat ((1 + n) - m) ).
+intros H1 H2; cut (exists c , c = Z.abs_nat ((1 + n) - m) ).
 intros [c H3]; rewrite <- H3.
 generalize n; elim c; auto with zarith; clear H1 H2 H3 c n.
 intros c H n; simpl; (apply f_equal2 with ( f := Zmult ); auto with zarith).
-apply f_equal with ( f := f ); unfold Zpred; auto with zarith.
-replace (Zpred (n + 1)) with (Zpred n + 1); auto with zarith.
-unfold Zpred; auto with zarith.
-exists (Zabs_nat ((1 + n) - m)); auto.
+apply f_equal with ( f := f ); unfold Z.pred; auto with zarith.
+replace (Z.pred (n + 1)) with (Z.pred n + 1); auto with zarith.
+unfold Z.pred; auto with zarith.
+exists (Z.abs_nat ((1 + n) - m)); auto.
 Qed.
 Hint Unfold Zprod .
  
@@ -235,8 +235,8 @@ Theorem Zprod_c:
 intros c p q Hq; unfold Zprod.
 rewrite Zle_imp_le_bool; auto with zarith.
 pattern ((1 + q) - p) at 2; rewrite <- Z_of_nat_Zabs_nat; auto with zarith.
-cut (exists r , r = Zabs_nat ((1 + q) - p) );
- [intros [r H1]; rewrite <- H1 | exists (Zabs_nat ((1 + q) - p))]; auto.
+cut (exists r , r = Z.abs_nat ((1 + q) - p) );
+ [intros [r H1]; rewrite <- H1 | exists (Z.abs_nat ((1 + q) - p))]; auto.
 generalize p; elim r; auto with zarith.
 intros n H p0; replace (Z_of_nat (S n)) with (Z_of_nat n + 1); auto with zarith.
 rewrite Zpower_exp; simpl; auto with zarith.
@@ -275,8 +275,8 @@ unfold Zprod; rewrite Zle_imp_le_bool; auto with zarith.
 unfold Zprod;
  cut
   (forall x,
-   In x (progression Zsucc n (Zabs_nat ((1 + m) - n))) ->  ( 0 <= f x <= g x )).
-elim (progression Zsucc n (Zabs_nat ((1 + m) - n))); simpl; auto with zarith.
+   In x (progression Z.succ n (Z.abs_nat ((1 + m) - n))) ->  ( 0 <= f x <= g x )).
+elim (progression Z.succ n (Z.abs_nat ((1 + m) - n))); simpl; auto with zarith.
 intros a l H0 H1; split; auto with zarith.
 apply Zmult_le_0_compat; auto with zarith.
 case (H1 a); auto with zarith.
@@ -289,7 +289,7 @@ case H0; auto with zarith.
 intros x H1; apply H; split.
 apply Zprogression_le_init with ( 1 := H1 ); auto.
 cut (x < m + 1); auto with zarith.
-replace (m + 1) with (n + Z_of_nat (Zabs_nat ((1 + m) - n))); auto with zarith.
+replace (m + 1) with (n + Z_of_nat (Z.abs_nat ((1 + m) - n))); auto with zarith.
 apply Zprogression_le_end; auto with zarith.
 rewrite Z_of_nat_Zabs_nat; auto with zarith.
 Qed.

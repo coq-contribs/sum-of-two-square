@@ -23,13 +23,13 @@ Definition Zdiv_exp_spec:
  forall a b,
   ({c : Z |
    0 <= c /\
-   ((1 < a -> 0 <= b ->  Zdivide (Zpower a c) b) /\
-    ((1 < a -> 1 <= b ->  ~ Zdivide (Zpower a (1 + c)) b) /\
+   ((1 < a -> 0 <= b ->  Z.divide (Zpower a c) b) /\
+    ((1 < a -> 1 <= b ->  ~ Z.divide (Zpower a (1 + c)) b) /\
      (forall d,
       1 < a ->
       1 <= b ->
       0 <= d ->
-      Zdivide (Zpower a d) b -> ~ Zdivide (Zpower a (1 + d)) b ->  c = d)))}).
+      Z.divide (Zpower a d) b -> ~ Z.divide (Zpower a (1 + d)) b ->  c = d)))}).
 intros a b.
 case (Z_lt_dec 1 a); intros H1.
 2:exists 0; auto with zarith.
@@ -54,7 +54,7 @@ case (Zdivide_dec a b); intros H4.
 2:replace d with (1 + (d - 1)); auto with zarith.
 2:rewrite Zpower_exp; auto with zarith.
 2:rewrite Zpower_exp_1; auto with zarith.
-assert (Ha1:  0 <= Zdiv b a < b ).
+assert (Ha1:  0 <= Z.div b a < b ).
 case (Zdivide_Zdiv_lt_pos a b); auto with zarith.
 case (f _ Ha1).
 intros res [Hb1 [Hb2 [Hb3 Hb4]]].
@@ -79,7 +79,7 @@ ring.
 intros tmp; assert (Hd1: a = b).
 rewrite (Zdivide_Zdiv_eq a b); auto with zarith.
 rewrite <- tmp; ring.
-subst b; intros tmp1; absurd (Zdivide (Zpower a 2) a).
+subst b; intros tmp1; absurd (Z.divide (Zpower a 2) a).
 replace 2 with (1 + 1); auto with zarith.
 (repeat rewrite Zpower_exp); auto with zarith.
 (repeat rewrite Zpower_exp_1); auto with zarith.
@@ -123,7 +123,7 @@ intros tmp; assert (Hd1: a = b).
 rewrite (Zdivide_Zdiv_eq a b); auto with zarith.
 rewrite <- tmp; ring.
 case (Zle_lt_or_eq 0 res); auto; intros tmp1.
-absurd (Zdivide a 1); auto with zarith.
+absurd (Z.divide a 1); auto with zarith.
 intros [q tmp2].
 case (Zmult_1_inversion_l a q); auto with zarith.
 rewrite tmp2; auto with zarith.
@@ -135,7 +135,7 @@ replace ((res - 1) + 1) with res; auto with zarith.
 rewrite tmp; auto with zarith.
 case (Zle_lt_or_eq 0 d); auto; intros tmp2.
 case (Zle_lt_or_eq 1 d); auto with zarith; intros tmp3.
-absurd (Zdivide (a * a) a); auto with zarith.
+absurd (Z.divide (a * a) a); auto with zarith.
 intros [q tmp4].
 case (Zmult_1_inversion_l a q); auto with zarith.
 apply Zmult_reg_l with a; auto with zarith.
@@ -159,10 +159,10 @@ intros; (try (red; intros)); case (Zdivide_1 a); auto with zarith.
 intros d H H0 H2 H4 H5; case Zle_lt_or_eq with ( 1 := H2 ); auto; intros H6.
 case (Zdivide_1 a); auto with zarith.
 apply Zdivide_trans with ( 2 := H4 ).
-exists (Zpower a (Zpred d)).
+exists (Zpower a (Z.pred d)).
 pattern a at 3; rewrite <- (Zpower_exp_1 a); auto with zarith.
 rewrite <- Zpower_exp; auto with zarith.
-replace (Zpred d + 1) with d; auto with zarith.
+replace (Z.pred d + 1) with d; auto with zarith.
 exists 0; auto with zarith.
 Defined.
  
@@ -176,12 +176,12 @@ intros a b; unfold Zdiv_exp; case (Zdiv_exp_spec a b); intuition.
 Qed.
  
 Theorem Zdiv_exp_div:
- forall a b, 1 < a -> 0 <= b ->  Zdivide (Zpower a (Zdiv_exp a b)) b.
+ forall a b, 1 < a -> 0 <= b ->  Z.divide (Zpower a (Zdiv_exp a b)) b.
 intros a b; unfold Zdiv_exp; case (Zdiv_exp_spec a b); intuition.
 Qed.
  
 Theorem Zdiv_exp_not_div:
- forall a b, 1 < a -> 0 < b ->  ~ Zdivide (Zpower a (1 + Zdiv_exp a b)) b.
+ forall a b, 1 < a -> 0 < b ->  ~ Z.divide (Zpower a (1 + Zdiv_exp a b)) b.
 intros a b; unfold Zdiv_exp; case (Zdiv_exp_spec a b); intuition.
 Qed.
  
@@ -190,7 +190,7 @@ Theorem Zdiv_exp_inv:
  1 < a ->
  0 < b ->
  0 <= c ->
- Zdivide (Zpower a c) b -> ~ Zdivide (Zpower a (1 + c)) b ->  c = Zdiv_exp a b.
+ Z.divide (Zpower a c) b -> ~ Z.divide (Zpower a (1 + c)) b ->  c = Zdiv_exp a b.
 intros a b; unfold Zdiv_exp; case (Zdiv_exp_spec a b).
 intros c [H1 [H2 [H3 H4]]].
 intros d L1 L2 L3 L4 L5; apply sym_equal; apply H4 with ( 4 := L4 );
@@ -209,12 +209,12 @@ Qed.
 Theorem Zdiv_exp_prime:
  forall a b c,
  0 < b ->
- 0 < c -> prime a -> ~ Zdivide a c ->  Zdiv_exp a (b * c) = Zdiv_exp a b.
+ 0 < c -> prime a -> ~ Z.divide a c ->  Zdiv_exp a (b * c) = Zdiv_exp a b.
 intros a b c H H0 H1 H2.
 assert (Ha: 1 < a).
 inversion H1; auto.
 apply sym_equal; apply Zdiv_exp_inv; auto with zarith.
-apply Zlt_le_trans with (1 * c); auto with zarith.
+apply Z.lt_le_trans with (1 * c); auto with zarith.
 apply Zdiv_exp_pos; auto.
 apply Zdivide_trans with b; auto with zarith.
 apply Zdiv_exp_div; auto with zarith.
@@ -230,7 +230,7 @@ pattern b at 2; rewrite Hq1.
 (repeat rewrite Zpower_exp_1); auto with zarith.
 ring.
 generalize (Zdiv_exp_pos a b); auto with zarith.
-assert (Hc: Zdivide a q1); auto.
+assert (Hc: Z.divide a q1); auto.
 apply Gauss with c; auto with zarith.
 exists q; rewrite Hb; auto with zarith.
 case (Zdiv_exp_not_div a b); auto with zarith.
@@ -248,7 +248,7 @@ intros a b H H0.
 assert (Ha: 1 < a).
 inversion H0; auto.
 apply sym_equal; apply Zdiv_exp_inv; auto with zarith.
-apply Zle_lt_trans with (1 * b); auto with zarith.
+apply Z.le_lt_trans with (1 * b); auto with zarith.
 apply Zmult_lt_compat_r; auto with zarith.
 generalize (Zdiv_exp_pos a b); auto with zarith.
 case (Zdiv_exp_div a b); auto with zarith.

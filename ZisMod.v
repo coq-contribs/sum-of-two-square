@@ -23,7 +23,7 @@ Require Import Iterator.
 Require Import UList.
 Open Scope Z_scope.
  
-Definition Zis_mod := fun a b n => Zdivide n (a - b).
+Definition Zis_mod := fun a b n => Z.divide n (a - b).
  
 Theorem Zis_mod_def:
  forall a b n, 0 < n -> Zmod a n = Zmod b n ->  Zis_mod a b n.
@@ -50,7 +50,7 @@ Qed.
 Theorem Zis_mod_mod: forall a n, 0 < n ->  Zis_mod a (Zmod a n) n.
 intros a n H1; red.
 pattern a at 1; rewrite (Z_div_mod_eq a n); auto with zarith.
-exists (Zdiv a n); ring.
+exists (Z.div a n); ring.
 Qed.
  
 Theorem Zis_mod_sym: forall a b n, Zis_mod a b n ->  Zis_mod b a n.
@@ -94,8 +94,8 @@ Qed.
 Theorem Zis_mod_cancel:
  forall a b c m, rel_prime a m -> Zis_mod (a * b) (a * c) m ->  Zis_mod b c m.
 intros a b c m H1 H2.
-assert (H3: Zdivide m (a * b - a * c)); auto with zarith.
-assert (H4: Zdivide m (a * (b - c))); auto with zarith.
+assert (H3: Z.divide m (a * b - a * c)); auto with zarith.
+assert (H4: Z.divide m (a * (b - c))); auto with zarith.
 rewrite Zmult_minus_distr_l; auto with zarith.
 red; apply Gauss with a; auto with zarith.
 red.
